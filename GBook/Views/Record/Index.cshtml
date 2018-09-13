@@ -1,0 +1,75 @@
+﻿@model GBook.Models.RecordsListViewModel
+@using GBook.HtmlHelpers
+
+@{
+    ViewBag.Title = "Guestbook records";
+}
+
+<h2>Guestbook records</h2>
+
+<p>@Html.ActionLink("Create new record", "Create", null, new { @class="btn btn-default" })</p>
+
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.ActionLink("Created", "Index",
+                    new { page = 1, column = "Created", descending = Model.SortingInfo.Column == "Created" ? !Model.SortingInfo.Descending : false },
+                    Model.SortingInfo.Column == "Created" ? new { @class = Model.SortingInfo.Descending ? "desc" : "asc" } : null)
+        </th>
+        <th>
+            @Html.ActionLink("User Name", "Index",
+                     new { page = 1, column = "UserName", descending = Model.SortingInfo.Column == "UserName" ? !Model.SortingInfo.Descending : false },
+                     Model.SortingInfo.Column == "UserName" ? new { @class = Model.SortingInfo.Descending ? "desc" : "asc" } : null)
+        </th>
+        <th>
+            @Html.ActionLink("E-mail", "Index",
+                     new { page = 1, column = "EMail", descending = Model.SortingInfo.Column == "EMail" ? !Model.SortingInfo.Descending : false },
+                     Model.SortingInfo.Column == "EMail" ? new { @class = Model.SortingInfo.Descending ? "desc" : "asc" } : null)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Records.SingleOrDefault().Homepage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Records.SingleOrDefault().Text)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Records.SingleOrDefault().IP)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Records.SingleOrDefault().Browser)
+        </th>
+    </tr>
+
+    @foreach (var item in Model.Records)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Created)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EMail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Homepage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Text)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IP)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Browser)
+            </td>
+
+        </tr>
+    }
+
+</table>
+
+
+@Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, column = @Model.SortingInfo.Column.ToString(), descending = @Model.SortingInfo.Descending.ToString() }))
+
